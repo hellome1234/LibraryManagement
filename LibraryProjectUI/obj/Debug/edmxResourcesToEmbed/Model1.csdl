@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ProjectPracticeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tblBook">
+    <Key>
+      <PropertyRef Name="BookId" />
+    </Key>
+    <Property Name="BookId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Author" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ISBN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="IsReference" Type="Boolean" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="AddedDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="tblUser" Relationship="Self.FK_tblBook_tblUser" FromRole="tblBook" ToRole="tblUser" />
+    <NavigationProperty Name="tblFines" Relationship="Self.FK_tblFine_tblBook" FromRole="tblBook" ToRole="tblFine" />
+    <NavigationProperty Name="tblIssueReturns" Relationship="Self.FK_tblIssueReturn_tblBook" FromRole="tblBook" ToRole="tblIssueReturn" />
+    <NavigationProperty Name="tblStocks" Relationship="Self.FK_tblStock_tblBook" FromRole="tblBook" ToRole="tblStock" />
+  </EntityType>
+  <EntityType Name="tblCard">
+    <Key>
+      <PropertyRef Name="CardId" />
+    </Key>
+    <Property Name="CardId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StudentId" Type="Int32" />
+    <Property Name="CardNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IssueDate" Type="DateTime" Precision="0" />
+    <Property Name="ExpireDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="tblStudent" Relationship="Self.FK_tblCard_tblStudent" FromRole="tblCard" ToRole="tblStudent" />
+    <NavigationProperty Name="tblFines" Relationship="Self.FK_tblFine_tblCard" FromRole="tblCard" ToRole="tblFine" />
+    <NavigationProperty Name="tblIssueReturns" Relationship="Self.FK_tblIssueReturn_tblCard" FromRole="tblCard" ToRole="tblIssueReturn" />
+  </EntityType>
+  <EntityType Name="tblFine">
+    <Key>
+      <PropertyRef Name="FineId" />
+    </Key>
+    <Property Name="FineId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CardId" Type="Int32" />
+    <Property Name="BookId" Type="Int32" />
+    <Property Name="TotalFine" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="tblBook" Relationship="Self.FK_tblFine_tblBook" FromRole="tblFine" ToRole="tblBook" />
+    <NavigationProperty Name="tblCard" Relationship="Self.FK_tblFine_tblCard" FromRole="tblFine" ToRole="tblCard" />
+  </EntityType>
+  <EntityType Name="tblIssueReturn">
+    <Key>
+      <PropertyRef Name="IssueReturnId" />
+    </Key>
+    <Property Name="IssueReturnId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookId" Type="Int32" />
+    <Property Name="IssueDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ReturnDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CardId" Type="Int32" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="Int32" />
+    <NavigationProperty Name="tblBook" Relationship="Self.FK_tblIssueReturn_tblBook" FromRole="tblIssueReturn" ToRole="tblBook" />
+    <NavigationProperty Name="tblCard" Relationship="Self.FK_tblIssueReturn_tblCard" FromRole="tblIssueReturn" ToRole="tblCard" />
+    <NavigationProperty Name="tblUser" Relationship="Self.FK_tblIssueReturn_tblUser" FromRole="tblIssueReturn" ToRole="tblUser" />
+  </EntityType>
+  <EntityType Name="tblLibraian">
+    <Key>
+      <PropertyRef Name="LibraianId" />
+    </Key>
+    <Property Name="LibraianId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="Int32" />
+    <NavigationProperty Name="tblUser" Relationship="Self.FK_tblLibraian_tblUser" FromRole="tblLibraian" ToRole="tblUser" />
+  </EntityType>
+  <EntityType Name="tblSetting">
+    <Key>
+      <PropertyRef Name="SettingId" />
+    </Key>
+    <Property Name="SettingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FineDays" Type="Int32" />
+    <Property Name="FineDaysRs" Type="Decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="tblStock">
+    <Key>
+      <PropertyRef Name="StockId" />
+    </Key>
+    <Property Name="StockId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookId" Type="Int32" />
+    <Property Name="Quantity" Type="Int32" />
+    <NavigationProperty Name="tblBook" Relationship="Self.FK_tblStock_tblBook" FromRole="tblStock" ToRole="tblBook" />
+  </EntityType>
+  <EntityType Name="tblStudent">
+    <Key>
+      <PropertyRef Name="StudenId" />
+    </Key>
+    <Property Name="StudenId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RollNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="tblCards" Relationship="Self.FK_tblCard_tblStudent" FromRole="tblStudent" ToRole="tblCard" />
+  </EntityType>
+  <EntityType Name="tblUser">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tblBooks" Relationship="Self.FK_tblBook_tblUser" FromRole="tblUser" ToRole="tblBook" />
+    <NavigationProperty Name="tblIssueReturns" Relationship="Self.FK_tblIssueReturn_tblUser" FromRole="tblUser" ToRole="tblIssueReturn" />
+    <NavigationProperty Name="tblLibraians" Relationship="Self.FK_tblLibraian_tblUser" FromRole="tblUser" ToRole="tblLibraian" />
+  </EntityType>
+  <Association Name="FK_tblBook_tblUser">
+    <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblBook" Type="Self.tblBook" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUser">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblBook">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblFine_tblBook">
+    <End Role="tblBook" Type="Self.tblBook" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblFine" Type="Self.tblFine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblBook">
+        <PropertyRef Name="BookId" />
+      </Principal>
+      <Dependent Role="tblFine">
+        <PropertyRef Name="BookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblIssueReturn_tblBook">
+    <End Role="tblBook" Type="Self.tblBook" Multiplicity="0..1" />
+    <End Role="tblIssueReturn" Type="Self.tblIssueReturn" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblBook">
+        <PropertyRef Name="BookId" />
+      </Principal>
+      <Dependent Role="tblIssueReturn">
+        <PropertyRef Name="BookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblStock_tblBook">
+    <End Role="tblBook" Type="Self.tblBook" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblStock" Type="Self.tblStock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblBook">
+        <PropertyRef Name="BookId" />
+      </Principal>
+      <Dependent Role="tblStock">
+        <PropertyRef Name="BookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblCard_tblStudent">
+    <End Role="tblStudent" Type="Self.tblStudent" Multiplicity="0..1" />
+    <End Role="tblCard" Type="Self.tblCard" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblStudent">
+        <PropertyRef Name="StudenId" />
+      </Principal>
+      <Dependent Role="tblCard">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblFine_tblCard">
+    <End Role="tblCard" Type="Self.tblCard" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblFine" Type="Self.tblFine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCard">
+        <PropertyRef Name="CardId" />
+      </Principal>
+      <Dependent Role="tblFine">
+        <PropertyRef Name="CardId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblIssueReturn_tblCard">
+    <End Role="tblCard" Type="Self.tblCard" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblIssueReturn" Type="Self.tblIssueReturn" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCard">
+        <PropertyRef Name="CardId" />
+      </Principal>
+      <Dependent Role="tblIssueReturn">
+        <PropertyRef Name="CardId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblIssueReturn_tblUser">
+    <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblIssueReturn" Type="Self.tblIssueReturn" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUser">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblIssueReturn">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblLibraian_tblUser">
+    <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tblLibraian" Type="Self.tblLibraian" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUser">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="tblLibraian">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ProjectPracticeEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="tblBooks" EntityType="Self.tblBook" />
+    <EntitySet Name="tblCards" EntityType="Self.tblCard" />
+    <EntitySet Name="tblFines" EntityType="Self.tblFine" />
+    <EntitySet Name="tblIssueReturns" EntityType="Self.tblIssueReturn" />
+    <EntitySet Name="tblLibraians" EntityType="Self.tblLibraian" />
+    <EntitySet Name="tblSettings" EntityType="Self.tblSetting" />
+    <EntitySet Name="tblStocks" EntityType="Self.tblStock" />
+    <EntitySet Name="tblStudents" EntityType="Self.tblStudent" />
+    <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+    <AssociationSet Name="FK_tblBook_tblUser" Association="Self.FK_tblBook_tblUser">
+      <End Role="tblUser" EntitySet="tblUsers" />
+      <End Role="tblBook" EntitySet="tblBooks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblFine_tblBook" Association="Self.FK_tblFine_tblBook">
+      <End Role="tblBook" EntitySet="tblBooks" />
+      <End Role="tblFine" EntitySet="tblFines" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblIssueReturn_tblBook" Association="Self.FK_tblIssueReturn_tblBook">
+      <End Role="tblBook" EntitySet="tblBooks" />
+      <End Role="tblIssueReturn" EntitySet="tblIssueReturns" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblStock_tblBook" Association="Self.FK_tblStock_tblBook">
+      <End Role="tblBook" EntitySet="tblBooks" />
+      <End Role="tblStock" EntitySet="tblStocks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblCard_tblStudent" Association="Self.FK_tblCard_tblStudent">
+      <End Role="tblStudent" EntitySet="tblStudents" />
+      <End Role="tblCard" EntitySet="tblCards" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblFine_tblCard" Association="Self.FK_tblFine_tblCard">
+      <End Role="tblCard" EntitySet="tblCards" />
+      <End Role="tblFine" EntitySet="tblFines" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblIssueReturn_tblCard" Association="Self.FK_tblIssueReturn_tblCard">
+      <End Role="tblCard" EntitySet="tblCards" />
+      <End Role="tblIssueReturn" EntitySet="tblIssueReturns" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblIssueReturn_tblUser" Association="Self.FK_tblIssueReturn_tblUser">
+      <End Role="tblUser" EntitySet="tblUsers" />
+      <End Role="tblIssueReturn" EntitySet="tblIssueReturns" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblLibraian_tblUser" Association="Self.FK_tblLibraian_tblUser">
+      <End Role="tblUser" EntitySet="tblUsers" />
+      <End Role="tblLibraian" EntitySet="tblLibraians" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
